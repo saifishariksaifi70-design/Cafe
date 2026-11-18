@@ -1,14 +1,10 @@
 
 import { useState } from "react";
 import {
-  FaPhoneAlt,
   FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
-  FaInstagram,
-  FaFacebookF,
   FaArrowRight,
   FaCheckCircle,
+  FaPaperPlane,
 } from "react-icons/fa";
 
 function Contact() {
@@ -21,7 +17,11 @@ function Contact() {
 
   const [submitted, setSubmitted] = useState(false);
 
+  const clientEmail = "emmanuelkalagbada0@gmail.com";
+
   const handleChange = (e) => {
+    setSubmitted(false);
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -31,14 +31,15 @@ function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setSubmitted(true);
+    // Open the visitor's email app with pre-filled details
+    const mailSubject = encodeURIComponent(formData.subject);
+    const mailBody = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    );
 
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
+    window.location.href = `mailto:${clientEmail}?subject=${mailSubject}&body=${mailBody}`;
+
+    setSubmitted(true);
   };
 
   return (
@@ -55,15 +56,15 @@ function Contact() {
         </h1>
 
         <p className="text-[#EAE1D2] max-w-2xl mx-auto leading-7">
-          Have a question or want to know more about our café?
+          Have a question or want to know more about us?
           We'd love to hear from you.
         </p>
       </section>
 
       {/* Contact Information */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-5xl mx-auto px-6 py-20">
 
-        <div className="text-center mb-14">
+        <div className="text-center mb-12">
           <p className="text-[#78866B] uppercase tracking-widest text-sm mb-3">
             Contact Information
           </p>
@@ -73,47 +74,34 @@ function Contact() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-md mx-auto bg-white p-8 rounded-2xl text-center shadow-sm hover:shadow-lg transition duration-300">
 
-          {[
-            {
-              icon: <FaPhoneAlt />,
-              title: "Phone",
-              detail: "+91 98765 43210",
-            },
-            {
-              icon: <FaEnvelope />,
-              title: "Email",
-              detail: "hello@thecozycafe.com",
-            },
-            {
-              icon: <FaMapMarkerAlt />,
-              title: "Address",
-              detail: "UAE",
-            },
-            {
-              icon: <FaClock />,
-              title: "Opening Hours",
-              detail: "9:00 AM - 10:00 PM",
-            },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="bg-white p-7 rounded-2xl text-center shadow-sm hover:shadow-lg transition duration-300"
-            >
-              <div className="w-14 h-14 mx-auto mb-5 rounded-full bg-[#EAE1D2] text-[#78866B] flex items-center justify-center text-xl">
-                {item.icon}
-              </div>
+          <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-[#EAE1D2] text-[#78866B] flex items-center justify-center text-2xl">
+            <FaEnvelope />
+          </div>
 
-              <h3 className="text-xl font-bold text-[#3B261B] mb-2">
-                {item.title}
-              </h3>
+          <h3 className="text-xl font-bold text-[#3B261B] mb-3">
+            Email Us
+          </h3>
 
-              <p className="text-gray-600 text-sm">
-                {item.detail}
-              </p>
-            </div>
-          ))}
+          <a
+            href={`mailto:${clientEmail}`}
+            className="text-gray-600 hover:text-[#78866B] transition break-all"
+          >
+            {clientEmail}
+          </a>
+
+          <p className="text-sm text-gray-500 mt-4">
+            Feel free to reach out to us anytime.
+          </p>
+
+          <a
+            href={`mailto:${clientEmail}`}
+            className="inline-flex items-center gap-2 mt-6 bg-[#78866B] hover:bg-[#657456] text-white px-6 py-3 rounded-full transition"
+          >
+            Send an Email
+            <FaArrowRight />
+          </a>
 
         </div>
       </section>
@@ -134,34 +122,36 @@ function Contact() {
             </h2>
 
             <p className="text-gray-600 leading-8 mb-8">
-              Whether you have a question about our menu,
-              want to share feedback, or simply want to say hello,
-              feel free to send us a message.
+              Have a question, suggestion, or feedback?
+              Fill out the form and send us your message
+              directly through your email application.
             </p>
 
             <div className="bg-[#3B261B] text-white p-8 rounded-2xl">
+              <div className="text-[#C5A47E] text-3xl mb-4">
+                <FaPaperPlane />
+              </div>
+
               <h3 className="text-2xl font-bold mb-3">
-                Visit The Cozy Café
+                We'd Love To Connect
               </h3>
 
               <p className="text-[#EAE1D2] leading-7">
-                Good coffee, delicious food, and a cozy atmosphere
-                are waiting for you.
+                Your thoughts and feedback are always welcome.
+                Get in touch with us through email.
               </p>
             </div>
           </div>
 
-          {/* Form */}
+          {/* Contact Form */}
           <div className="bg-white p-7 md:p-10 rounded-2xl shadow-sm">
 
             {submitted && (
               <div className="bg-green-50 text-green-700 p-4 rounded-lg mb-6 flex items-center gap-3">
                 <FaCheckCircle />
-                <p>
-                  Thank you! Your message has been submitted successfully.
-                  <span className="block text-xs mt-1">
-                    Demo only — no message was actually sent.
-                  </span>
+                <p className="text-sm">
+                  Your email application should open with your message.
+                  Please send it from there.
                 </p>
               </div>
             )}
@@ -242,38 +232,6 @@ function Contact() {
 
             </form>
           </div>
-
-        </div>
-      </section>
-
-      {/* Social Media */}
-      <section className="bg-[#EAE1D2] py-14 px-6 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-[#3B261B] mb-4">
-          Follow Us On Social Media
-        </h2>
-
-        <p className="text-gray-600 mb-7">
-          Stay connected for our latest updates and special offers.
-        </p>
-
-        <div className="flex justify-center gap-5">
-
-          <a
-            href="#"
-            aria-label="Instagram"
-            className="w-12 h-12 bg-[#3B261B] text-white rounded-full flex items-center justify-center hover:bg-[#78866B] transition"
-          >
-            <FaInstagram />
-          </a>
-
-          <a
-            href="#"
-            aria-label="Facebook"
-            className="w-12 h-12 bg-[#3B261B] text-white rounded-full flex items-center justify-center hover:bg-[#78866B] transition"
-          >
-            <FaFacebookF />
-          </a>
-
         </div>
       </section>
 
